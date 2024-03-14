@@ -1,0 +1,57 @@
+<nav class="navbar navbar-expand-md bg-body-tertiary" style="background-color: #D7EFD4; padding: 0;">
+  <div class="container-fluid" style="padding-top: 10px;padding-bottom: 10px;">
+    <h2><span style="color:#0d7600">D</span>emo</h2>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav" style="padding-left: 30px;">
+      <ul class="navbar-nav">
+        <li class="nav-item" *ngFor="let item of pages">
+          <a
+            class="nav-link"
+            role="button"
+            (click)="changePage(item)"
+            [class.active]="currentPage === item"
+            >{{ item }}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="row justify-content-end">
+  <div class="select" style="margin-top: 12px; margin-right: 20px;">
+    <select name="format" id="format" [(ngModel)]="selectedFormName" (change)="onFormNameChange(selectedFormName)">
+      <option selected disabled>Choose a Table </option>
+      <option *ngFor="let option of formName" [value]="option.id">{{ option.formname }}</option>
+    </select>
+  </div>
+</div>
+<div class="container my-2" *ngIf="!isLoading">
+  <!-- Formio component for displaying the form -->
+  <formio
+    [form]="form"
+    [readOnly]="readOnly"
+    [submission]="submission"
+    (submit)="onSubmit($event)"
+  ></formio>
+  
+  <!-- QR code container -->
+  <div *ngIf="qrCodeDataUrl" class="text-center my-4">
+    <img [src]="qrCodeDataUrl" alt="QR Code" style="max-width: 100%; height: auto;">
+    <div class="mt-2">
+      <!-- Download button -->
+      <button class="btn btn-primary me-2" (click)="downloadQRCode()">Download QR Code</button>
+      <!-- Print button -->
+      <button class="btn btn-secondary" (click)="printQRCode()">Print QR Code</button>
+    </div>
+  </div>
+</div>
+<app-loading *ngIf="isLoading"></app-loading>
