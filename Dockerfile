@@ -1,10 +1,11 @@
+
 # Use Node.js image as the base image for building the Angular app
 FROM node:latest as builder
 
 # Set the working directory in the container
 WORKDIR /app
 
-
+# Copy the package.json and package-lock.json
 COPY package*.json ./
 
 # Install Angular CLI
@@ -17,13 +18,22 @@ RUN npm install --legacy-peer-deps
 COPY . .
 
 # Build the Angular app
-RUN ng build 
+RUN ng build --prod
 
-# Install http-server globally to serve the Angular app
-RUN npm install -g http-server
+# Use NGINX base image
+FROM nginx:alpine
 
-# Expose port 8080 (default port for http-server)
-EXPOSE 8080
+# Remove the default NGINX configuration
+RUN rm -rf /etc/nginx/conf.d/*
 
-# Command to run the http-server and serve the Angular app
-CMD ["http-server", "/app/dist"]
+# Copy custom NGINX configuration to serve Angular app
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Copy built Angular app to NGINX public directory
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+# Expose port 80
+EXPOSE 80
+
+# Command to run NGINX
+CMD ["nginx", "-g", "daemon off;"]
