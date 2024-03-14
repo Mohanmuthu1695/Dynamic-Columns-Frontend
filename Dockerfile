@@ -17,7 +17,7 @@ RUN npm install --legacy-peer-deps
 COPY . .
 
 # Build the Angular app
-RUN ng build --prod
+RUN ng build 
 
 # Use NGINX base image
 FROM nginx:alpine
