@@ -1,0 +1,98 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~@fortawesome/fontawesome-free/css/all.css';
+
+#heading-advanced{
+    display:none;
+}
+#heading-layout{
+    display:none;
+}
+#heading-data{
+    display:none;
+}
+#heading-premium{
+    display:none;
+}
+.tab-component-tabs li:not(:first-child) {
+    display: none;
+  }
+  
+  .float-end{
+    display: none;
+  }
+  .navbar .container-fluid{
+    background-color: #D7EFD4;
+  }
+  .navbar{
+    background-color: #D7EFD4;
+  }
+  .accordion-item:not(:first-of-type) {
+    border-top: 0;
+    display: none;
+}.logo {
+    height: 46px; 
+    width: 200px; 
+    background-image: url('/assets/logo1.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-indent: -9999px; 
+    background-size: 100% 100%;
+  }
+#group-container-basic{
+    .btn{
+       border-color:  #86C37F;
+       color:  #727272;
+    }
+    .btn:hover{
+        background-color:  #D7EFD4;
+        color: #0d7600;
+    }
+    .btn:active{
+        background-color:  #D7EFD4;
+        color: #D7EFD4;
+    }
+    .btn:focus{
+        background-color:  #D7EFD4;
+        color: #c1e9bc;
+    }
+}
+.formio-form{
+    .builder-components{
+        .drag-and-drop-alert {
+       background-color:#f3f6f3 ;   
+       border-color:#c1e9bc ;  
+        }
+    }
+}
+.formcomponents{
+    .input:focus {
+        color: var(--bs-body-color);
+        background-color: var(--bs-body-bg);
+        border-color: #D7EFD4;
+        outline: 0;
+        box-shadow: 0 0 0 0.25rem rgba(129, 221, 101, 0.25);
+    }
+    }
+    .form-control {
+        color: var(--bs-body-color);
+        background-color: var(--bs-body-bg);
+        border-color: #D7EFD4;
+        outline: 0;
+        transition: box-shadow 0.3s ease; /* Adding transition for smooth effect */
+        box-shadow: 0 0 0 0.25rem rgba(129, 221, 101, 0); /* Initial box-shadow */
+    }
+    
+    .form-control:focus {
+        box-shadow: 0 0 0 0.25rem rgba(129, 221, 101, 0.25); /* Box-shadow on focus */
+    }
+
+    #group-container-basic{
+        .btn.btn-outline-primary.btn-sm.formcomponent.drag-copy.m-0 {
+            --bs-btn-hover-bg: #242525; /* Set the hover background color */
+          }
+}
+ 
