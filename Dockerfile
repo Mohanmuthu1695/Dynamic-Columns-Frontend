@@ -4,7 +4,7 @@ FROM node:latest as builder
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy the package.json and package-lock.json
+
 COPY package*.json ./
 
 # Install Angular CLI
