@@ -1,6 +1,4 @@
-# Frontend Dockerfile
-
-# Use Node.js image as the base image
+# Use Node.js image as the base image for building the Angular app
 FROM node:latest as builder
 
 # Set the working directory in the container
@@ -19,13 +17,22 @@ RUN npm install --legacy-peer-deps
 COPY . .
 
 # Build the Angular app
-RUN ng build 
+RUN ng build --prod
 
 # Use NGINX base image
 FROM nginx:alpine
 
+# Remove the default NGINX configuration
+RUN rm -rf /etc/nginx/conf.d/*
+
+# Copy custom NGINX configuration to serve Angular app
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
 # Copy built Angular app to NGINX public directory
 COPY --from=builder /app/dist /usr/share/nginx/html
+
+# Expose port 80
+EXPOSE 80
 
 # Command to run NGINX
 CMD ["nginx", "-g", "daemon off;"]
