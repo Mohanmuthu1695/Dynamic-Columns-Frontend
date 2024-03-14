@@ -13,7 +13,7 @@
   "dependencies": {
     "@angular/animations": "^16.1.0",
     "@angular/cdk": "^17.2.1",
-    "@angular/common": "^16.1.0",
+    "@angular/common": "^17.3.0", // Updated version to match @angular/cdk
     "@angular/compiler": "^16.1.0",
     "@angular/core": "^16.1.0",
     "@angular/elements": "^16.2.2",
