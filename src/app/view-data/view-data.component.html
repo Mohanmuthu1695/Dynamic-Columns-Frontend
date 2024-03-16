@@ -46,21 +46,32 @@
       <thead class="thead-dark">
         <tr>
           <th *ngFor="let header of headers">{{ header }}</th>
-          <th>Action</th> <!-- Added Action column -->
+          <th *ngIf="userData.length > 0 ">Action</th> <!-- Added Action column -->
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let item of userData">
           <ng-container *ngFor="let h of headers; let i = index">
-            <td>{{ item[headers[i]] }}</td>
+            <td>
+              <ng-container *ngIf="headers[i] !== 'status'; else statusTemplate">
+                {{ item[headers[i]] }}
+              </ng-container>
+              <ng-template #statusTemplate>
+                <span [ngClass]="{ 'disabled': item['status'] === 0, 'enabled': item['status'] === 1 }">
+                  {{ item['status'] === 0 ? 'Disabled' : 'Enabled' }}
+                </span>
+              </ng-template>
+            </td>
           </ng-container>
-          <td class="icon-cell">
+          <td class="icon-cell" *ngIf="userData.length > 0 ">
             <i class="fas fa-print fa-lg text-primary cursor-pointer" (click)="printQRCode(item)"></i>
             <i class="fas fa-download fa-lg text-success cursor-pointer" (click)="downloadQRCode(item)"></i>
             <i class="fas fa-qrcode fa-lg text-warning cursor-pointer" (click)="openQRModal(item)"></i>
           </td>
         </tr>
       </tbody>
+      
+      
     </table>
     <app-loading *ngIf="isLoading"></app-loading>
   </div>

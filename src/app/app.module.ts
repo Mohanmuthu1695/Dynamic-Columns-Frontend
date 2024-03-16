@@ -29,7 +29,7 @@ import { LoadingComponent } from './loading/loading.component';
     FormioModule,
     HttpClientModule,
     FormsModule,
-  
+     
   ],
   providers: [],
   bootstrap: [AppComponent]

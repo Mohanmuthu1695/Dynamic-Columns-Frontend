@@ -9,23 +9,25 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class FormsService {
   formName = new BehaviorSubject<any>([]);
-  constructor(private http: HttpClient) { 
-    
-  }
+constructor(private http: HttpClient) { 
+  
+    }
+  
   postJsonSchema(data: any) {
     return this.http.post<any>(environment.apiUrl + `/form/add`, data, { responseType: 'arraybuffer' as 'json' });
   }
-  getData(id: any): Observable<any> {
+    getData(id: any): Observable<any> {
     return this.http.get<any>(`${environment.apiUrl}/form/get/${id}`);
   }
-  getId() {
+    getId() {
     return this.http.get<any>(environment.apiUrl + `/form/getID`, 
     );
   }
-  postUser(data:any){
+    postUser(data:any){
     return this.http.post<any>(environment.apiUrl + `/user/add`, data);
   }
+  
   getUserData(tableName:any): Observable<any> {
     return this.http.get<any>(`${environment.apiUrl}/user/get/${tableName}`);
   }
-}
+  }

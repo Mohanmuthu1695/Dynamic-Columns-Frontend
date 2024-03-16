@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsService } from '../forms.service';
 import { Router } from '@angular/router';
 import * as QRCode from 'qrcode';
-
+import * as socketio from 'socket.io-client';
 @Component({
   selector: 'app-view-data',
   templateUrl: './view-data.component.html',
@@ -10,7 +10,8 @@ import * as QRCode from 'qrcode';
   providers: [FormsService]
 })
 export class ViewDataComponent implements OnInit {
-  userData: any[] = [];
+  
+    userData: any[] = [];
   pages = ['Create Form', 'Preview', 'View'];
   currentPage = 'View';
   formName: any = [];
@@ -19,8 +20,9 @@ export class ViewDataComponent implements OnInit {
   isLoading: boolean = false;
   errorMessage: string = 'No Table Data Found';
   currentQRCode: string = ''; // Holds the current QR code data URL
+  tableId: any;
 
-  constructor(private apiService: FormsService, private router: Router) {}
+  constructor(private apiService: FormsService, private router: Router) {} 
 
   ngOnInit() {
     this.getId();
@@ -60,7 +62,9 @@ export class ViewDataComponent implements OnInit {
   }
 
   printQRCode(item: any) {
-    QRCode.toDataURL(JSON.stringify(item), (err, url) => {
+    const tableId = this.tableId;
+    const dataWithTableId = { ...item, tableId }; // Add the tableId to the item data
+    QRCode.toDataURL(JSON.stringify(dataWithTableId), (err, url) => {
       if (err) {
         console.error(err);
         return;
@@ -90,27 +94,32 @@ export class ViewDataComponent implements OnInit {
       }
     });
   }
-
+  
   downloadQRCode(item: any) {
-    QRCode.toDataURL(JSON.stringify(item), (err, url) => {
+    const tableId = this.tableId;
+    const dataWithTableId = { ...item, tableId }; // Add the tableId to the item data
+    QRCode.toDataURL(JSON.stringify(dataWithTableId), (err, url) => {
       if (err) {
         console.error(err);
         return;
       }
       const link = document.createElement('a');
-      link.download = `qrcode_${item['id']}.png`; // Assuming 'id' is a unique identifier
+      link.download = `qrcode_${tableId}.png`;
       link.href = url;
       link.click();
     });
   }
-
+  
   openQRModal(item: any) {
-    QRCode.toDataURL(JSON.stringify(item), (err, url) => {
+    const tableId = this.tableId;
+    const dataWithTableId = { ...item, tableId }; // Add the tableId to the item data
+    QRCode.toDataURL(JSON.stringify(dataWithTableId), (err, url) => {
       if (err) {
         console.error(err);
         return;
       }
       this.currentQRCode = url;
+  
       const modal = document.getElementById('qrModal');
       if (modal) {
         modal.classList.add('show');
@@ -120,6 +129,7 @@ export class ViewDataComponent implements OnInit {
     });
   }
   
+
   closeQRModal() {
     const modal = document.getElementById('qrModal');
     if (modal) {
@@ -128,7 +138,6 @@ export class ViewDataComponent implements OnInit {
       modal.setAttribute('aria-modal', 'false');
     }
   }
-  
 
   getId() {
     this.apiService.getId().subscribe({
@@ -136,6 +145,7 @@ export class ViewDataComponent implements OnInit {
         this.formName = data.data;
         if (this.formName && this.formName.length > 0) {
           this.tableName = this.formName[0].tableName;
+          this.tableId=this.formName[0].id
           this.getData();
         }
       },

@@ -81,3 +81,19 @@ select::-ms-expand {
   justify-content: space-around;
   align-items: center;
 }
+.disabled {
+  background-color: red; /* Set the background color for disabled status */
+  color: white; /* Set the text color for disabled status */
+  padding: 3px 7px; /* Adjust padding as needed */
+  border-radius: 4px; /* Add rounded corners */
+}
+
+.enabled {
+  background-color: green; /* Set the background color for enabled status */
+  color: white; /* Set the text color for enabled status */
+  padding: 3px 7px; /* Adjust padding as needed */
+  border-radius: 4px; /* Add rounded corners */
+}
+.td{
+  text-align: center;
+}

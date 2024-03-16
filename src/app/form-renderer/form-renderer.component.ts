@@ -77,42 +77,37 @@ export class FormRendererComponent implements OnInit {
 
   onSubmit(event: any): void {
     // Emit the submission event
-    this.isLoading=true;
+    this.isLoading = true;
     this.submit.emit(event);
   
     // Log the submission data to the API
-    this.apiService.postUser({ formData: event.data, selectedFormId: this.selectedFormName }).subscribe({
+    this.apiService.postUser({ formData: { ...event.data, status: 0 }, selectedFormId: this.selectedFormName }).subscribe({
       next: (response: any) => {
         console.log('Success:', response);
         setTimeout(() => {
-          this.isLoading=false;
-        },500)
+          this.isLoading = false;
+        }, 500);
         // Extract data from the response
         const responseData = response.data;
-  
-        // Convert response data to formatted string
-        const formattedData = this.formatResponseData(responseData);
-  
-        // Prepend the heading "Demo" to the formatted data
-        const formattedDataWithHeading = `Demo\n${formattedData}`;
-  
-        // Generate QR code for the formatted response data
-        QRCode.toDataURL(formattedDataWithHeading, (err, url) => {
+    
+        // Generate QR code for the response data directly
+        QRCode.toDataURL(JSON.stringify(responseData), (err, url) => {
           if (err) {
             console.error('Error generating QR code:', err);
             return;
           }
-          this.QrName=response.data.id
+          this.QrName = response.data.id;
           // Store the data URL of the generated QR code
           this.qrCodeDataUrl = url;
-          
         });
       },
       error: (error: any) => {
         console.error('Error:', error);
       }
     });
+    
   }
+  
   
   // Function to format response data into a string representation with labels
   formatResponseData(data: any): string {
