@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsService } from '../forms.service';
 import { Router } from '@angular/router';
 import * as QRCode from 'qrcode';
-import * as socketio from 'socket.io-client';
+
 @Component({
   selector: 'app-view-data',
   templateUrl: './view-data.component.html',
